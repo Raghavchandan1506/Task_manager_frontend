@@ -1,14 +1,23 @@
 import React, { useEffect, useState } from "react";
 import { FaCheck, FaEdit, FaPlus, FaSearch, FaTrash } from "react-icons/fa";
-import { ToastContainer } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css"; // Import toast styles
 import { CreateTask, DeleteTask, GetAllTasks, UpdateTask } from "./api";
-import { notify } from "./utils";
 
 const TaskManager = () => {
   const [input, setInput] = useState("");
   const [Tasks, setTasks] = useState([]);
   const [copyTasks, setCopyTasks] = useState([]);
   const [updateTask, setUpdateTask] = useState(null);
+
+  // Utility function for notifications
+  const notify = (message, type) => {
+    if (type === "success") {
+      toast.success(message);
+    } else if (type === "error") {
+      toast.error(message);
+    }
+  };
 
   const handleTask = () => {
     if (updateTask && input) {
@@ -205,6 +214,19 @@ const TaskManager = () => {
           </div>
         ))}
       </div>
+
+      {/* Toast Container for Notifications */}
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
     </div>
   );
 };
