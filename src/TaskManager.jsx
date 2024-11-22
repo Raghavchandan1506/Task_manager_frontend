@@ -48,9 +48,9 @@ const TaskManager = () => {
     try {
       const { success, message } = await CreateTask(obj);
       if (success) {
-        notify(message, "success");
+        notify(message, "Task Added successfully");
       } else {
-        notify(message, "error");
+        notify(message, "Unable to add a task");
       }
       setInput("");
       await fetchAllTasks();
@@ -69,9 +69,9 @@ const TaskManager = () => {
     try {
       const { success, message } = await UpdateTask(_id, obj);
       if (success) {
-        notify(message, "success");
+        notify(message, "Task Updated succesfully");
       } else {
-        notify(message, "error");
+        notify(message, "Unable to update task");
       }
       await fetchAllTasks();
     } catch (error) {
@@ -99,9 +99,9 @@ const TaskManager = () => {
     try {
       const { success, message } = await DeleteTask(id);
       if (success) {
-        notify(message, "success");
+        notify(message, "Task Deleted");
       } else {
-        notify(message, "error");
+        notify(message, "Unable to delete task");
       }
       await fetchAllTasks();
     } catch (error) {
@@ -119,9 +119,9 @@ const TaskManager = () => {
     try {
       const { success, message } = await UpdateTask(_id, obj);
       if (success) {
-        notify(message, "success");
+        notify(message, "Marked as Done");
       } else {
-        notify(message, "error");
+        notify(message, "Marked as Undone");
       }
       await fetchAllTasks();
     } catch (error) {
@@ -179,7 +179,7 @@ const TaskManager = () => {
       </div>
 
       <div className="flex flex-col items-center w-full mt-10 space-y-4">
-        {Tasks.map((item) => (
+        {Tasks?.map((item) => (
           <div
             key={item._id}
             className="flex flex-col sm:flex-row items-center sm:justify-between border-2 rounded-md p-3 w-full sm:w-96 text-lg"
