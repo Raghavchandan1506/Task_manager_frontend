@@ -46,11 +46,11 @@ const TaskManager = () => {
       isDone: false,
     };
     try {
-      const { success, message } = await CreateTask(obj);
+      const { success } = await CreateTask(obj);
       if (success) {
-        notify(message, "Task Added successfully");
+        notify("Task Created Successfully", "success");
       } else {
-        notify(message, "Unable to add a task");
+        notify("Unable to create task, please try again.", "error");
       }
       setInput("");
       await fetchAllTasks();
@@ -67,11 +67,11 @@ const TaskManager = () => {
       isDone: isDone,
     };
     try {
-      const { success, message } = await UpdateTask(_id, obj);
+      const { success } = await UpdateTask(_id, obj);
       if (success) {
-        notify(message, "Task Updated succesfully");
+        notify("Task Updated", "success");
       } else {
-        notify(message, "Unable to update task");
+        notify("Unable to update task", "error");
       }
       await fetchAllTasks();
     } catch (error) {
@@ -97,11 +97,11 @@ const TaskManager = () => {
 
   const handleDeleteTask = async (id) => {
     try {
-      const { success, message } = await DeleteTask(id);
+      const { success } = await DeleteTask(id);
       if (success) {
-        notify(message, "Task Deleted");
+        notify("Task Deleted Successfully", "success");
       } else {
-        notify(message, "Unable to delete task");
+        notify("unable to delete task", "error");
       }
       await fetchAllTasks();
     } catch (error) {
@@ -117,11 +117,11 @@ const TaskManager = () => {
       isDone: !isDone,
     };
     try {
-      const { success, message } = await UpdateTask(_id, obj);
+      const { success } = await UpdateTask(_id, obj);
       if (success) {
-        notify(message, "Marked as Done");
+        notify("Task Status updated", "success");
       } else {
-        notify(message, "Marked as Undone");
+        notify("Unable to update task status", "error");
       }
       await fetchAllTasks();
     } catch (error) {
