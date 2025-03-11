@@ -1,71 +1,28 @@
 import { API_URL } from "./utils";
 
-export const CreateTask = async (taskobj) => {
-  const url = `${API_URL}/api/v1/Todos/createTask`;
+const apiCall = async (endpoint, method = "GET", body = null) => {
+  const url = `${API_URL}/api/v1/Todos/${endpoint}`;
   const options = {
-    method: "POST",
+    method,
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify(taskobj),
+    ...(body && { body: JSON.stringify(body) }),
   };
+
   try {
-    const result = await fetch(url, options);
-    const data = await result.json();
-    return data;
+    const response = await fetch(url, options);
+    if (!response.ok) {
+      throw new Error(`API Error: ${response.status} ${response.statusText}`);
+    }
+    return await response.json();
   } catch (error) {
-    return error;
+    console.error("API Call Failed:", error);
+    throw error;
   }
 };
 
-export const GetAllTasks = async () => {
-  const url = `${API_URL}/api/v1/Todos/AllTasks`;
-  const options = {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  };
-  try {
-    const result = await fetch(url, options);
-    const data = await result.json();
-    return data;
-  } catch (error) {
-    return error;
-  }
-};
-
-export const DeleteTask = async (id) => {
-  const url = `${API_URL}/api/v1/Todos/deleteTask/${id}`;
-  const options = {
-    method: "DELETE",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  };
-  try {
-    const result = await fetch(url, options);
-    const data = await result.json();
-    return data;
-  } catch (error) {
-    return error;
-  }
-};
-
-export const UpdateTask = async (id, body) => {
-  const url = `${API_URL}/api/v1/Todos/updateTask/${id}`;
-  const options = {
-    method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(body),
-  };
-  try {
-    const result = await fetch(url, options);
-    const data = await result.json();
-    return data;
-  } catch (error) {
-    return error;
-  }
-};
+export const CreateTask = (taskobj) => apiCall("createTask", "POST", taskobj);
+export const GetAllTasks = () => apiCall("AllTasks");
+export const DeleteTask = (id) => apiCall(`deleteTask/${id}`, "DELETE");
+export const UpdateTask = (id, body) => apiCall(`updateTask/${id}`, "PUT", body);
